@@ -68,6 +68,27 @@ def EVP_BytesToKey(password, key_len, iv_len):
     return key, iv
 
 
+def wrap_encrypt(func):
+
+    def wrap(*args, **kargs):
+        e = func(*args, **kargs)
+        result = ""
+        for i in bytes(e):
+            result += chr(ord(i) ^ 10)
+        return result
+    return wrap
+
+
+def wrap_decrypt(func):
+
+    def wrap(self, buf):
+        e = ""
+        for i in buf:
+            e += chr(ord(i) ^ 10)
+        return func(self, e)
+    return wrap
+
+
 class Encryptor(object):
     def __init__(self, key, method):
         self.key = key
@@ -108,6 +129,7 @@ class Encryptor(object):
             self.cipher_iv = iv[:m[1]]
         return m[2](method, key, iv, op)
 
+    @wrap_encrypt
     def encrypt(self, buf):
         if len(buf) == 0:
             return buf
@@ -117,6 +139,7 @@ class Encryptor(object):
             self.iv_sent = True
             return self.cipher_iv + self.cipher.update(buf)
 
+    @wrap_decrypt
     def decrypt(self, buf):
         if len(buf) == 0:
             return buf
