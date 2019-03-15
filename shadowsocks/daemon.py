@@ -206,3 +206,4 @@ def set_user(username):
         os.setgroups(groups)
     os.setgid(gid)
     os.setuid(uid)
+

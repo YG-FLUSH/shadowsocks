@@ -17,6 +17,7 @@
 from __future__ import absolute_import, division, print_function, \
     with_statement
 
+import base64
 import os
 import sys
 import hashlib
@@ -70,22 +71,15 @@ def EVP_BytesToKey(password, key_len, iv_len):
 
 def wrap_encrypt(func):
 
-    def wrap(*args, **kargs):
-        e = func(*args, **kargs)
-        result = ""
-        for i in bytes(e):
-            result += chr(ord(i) ^ 10)
-        return result
+    def wrap(self, buf):
+        return base64.b64encode(buf)
     return wrap
 
 
 def wrap_decrypt(func):
 
     def wrap(self, buf):
-        e = ""
-        for i in buf:
-            e += chr(ord(i) ^ 10)
-        return func(self, e)
+        return base64.b64decode(buf)
     return wrap
 
 

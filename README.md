@@ -114,3 +114,7 @@ Bugs and Issues
 [Troubleshooting]:   https://github.com/shadowsocks/shadowsocks/wiki/Troubleshooting
 [Wiki]:              https://github.com/shadowsocks/shadowsocks/wiki
 [Windows]:           https://github.com/shadowsocks/shadowsocks-csharp
+
+Socks5
+----------------
+* [protocols](https://blog.csdn.net/sjailjq/article/details/81637196)
