@@ -72,14 +72,14 @@ def EVP_BytesToKey(password, key_len, iv_len):
 def wrap_encrypt(func):
 
     def wrap(self, buf):
-        return base64.b64encode(buf)
+        return base64.b64encode(func(self, buf))
     return wrap
 
 
 def wrap_decrypt(func):
 
     def wrap(self, buf):
-        return base64.b64decode(buf)
+        return func(self, base64.b64decode(buf))
     return wrap
 
 
